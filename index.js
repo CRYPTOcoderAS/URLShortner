@@ -9,7 +9,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/urlshortener';
-const BASE_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${PORT}`;
+const BASE_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:9000}`;
 
 // Connect to MongoDB
 mongoose.connect(MONGODB_URI)
@@ -27,7 +27,7 @@ app.post('/shorten', async (req, res) => {
 
         // Generate short ID
         const shortId = nanoid(6);
-        const shortUrl = `${BASE_URL}/short/${shortId}`;
+        const shortUrl = `${BASE_URL}/rupeek/${shortId}`;
 
         // Save to MongoDB
         const urlDoc = new Url({
