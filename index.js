@@ -8,15 +8,13 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/urlshortener';
-const BASE_URL = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:9000}`;
+const MONGODB_URI = process.env.MONGODB_URI ;
+const BASE_URL = 'https://urlpeek.vercel.app';
 
-// Connect to MongoDB
 mongoose.connect(MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
 
-// POST endpoint to create short URL
 app.post('/shorten', async (req, res) => {
     try {
         const { url } = req.body;
@@ -25,11 +23,9 @@ app.post('/shorten', async (req, res) => {
             return res.status(400).json({ error: 'URL is required' });
         }
 
-        // Generate short ID
         const shortId = nanoid(6);
         const shortUrl = `${BASE_URL}/rupeek/${shortId}`;
 
-        // Save to MongoDB
         const urlDoc = new Url({
             shortId,
             originalUrl: url,
@@ -50,7 +46,6 @@ app.post('/shorten', async (req, res) => {
     }
 });
 
-// GET endpoint to redirect short URLs
 app.get('/short/:shortId', async (req, res) => {
     try {
         const { shortId } = req.params;
@@ -60,7 +55,6 @@ app.get('/short/:shortId', async (req, res) => {
             return res.status(404).json({ error: 'Short URL not found' });
         }
 
-        // Increment clicks
         url.clicks += 1;
         await url.save();
 
@@ -71,7 +65,6 @@ app.get('/short/:shortId', async (req, res) => {
     }
 });
 
-// GET endpoint to get URL stats
 app.get('/stats/:shortId', async (req, res) => {
     try {
         const { shortId } = req.params;
@@ -94,17 +87,14 @@ app.get('/stats/:shortId', async (req, res) => {
     }
 });
 
-// Health check endpoint
 app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
-// For local development
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
     });
 }
 
-// Export for Vercel
 module.exports = app;
