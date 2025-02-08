@@ -8,12 +8,18 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "NODE_ENV=development node index.js"
+    "dev": "NODE_ENV=development node index.js",
+    "test": "jest"
   },
   "dependencies": {
     "express": "^4.18.2",
     "nanoid": "^3.3.4",
     "mongoose": "^8.0.0",
     "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "mongodb-memory-server": "^9.1.3"
   }
 }
