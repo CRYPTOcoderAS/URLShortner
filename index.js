@@ -24,7 +24,7 @@ app.post('/shorten', async (req, res) => {
         }
 
         const shortId = nanoid(6);
-        const shortUrl = `${BASE_URL}/rupeek/${shortId}`;
+        const shortUrl = `${BASE_URL}/short/${shortId}`;
 
         const urlDoc = new Url({
             shortId,
